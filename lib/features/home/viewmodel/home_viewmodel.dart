@@ -11,6 +11,12 @@ class HomeViewModel extends ChangeNotifier {
   List<Item> _filteredItems = [];
   bool _isLoading = false;
 
+  // Filter state variables
+  String? _currentCategory;
+  String _searchQuery = '';
+  double _minPrice = 0;
+  double _maxPrice = 1000;
+
   List<Item> get foodItems => _filteredItems;
   bool get isLoading => _isLoading;
 
@@ -18,24 +24,67 @@ class HomeViewModel extends ChangeNotifier {
     log("Fetching food items");
     _isLoading = true;
     notifyListeners();
+
     _allItems = await homeRepository.fetchFoodItems();
     _filteredItems = _allItems;
+
     _isLoading = false;
     notifyListeners();
   }
 
   void searchItems(String query) {
-    if (query.isEmpty) {
-      _filteredItems = _allItems;
-      notifyListeners();
-    } else {
-      _filteredItems =
-          _allItems.where((item) {
-            return item.name.toLowerCase().contains(query.toLowerCase());
-          }).toList();
-      notifyListeners();
-    }
+    _searchQuery = query;
+    _applyAllFilters();
   }
 
-  void filterCategory(){  }
+  void applyFilters({String? category, double? minPrice, double? maxPrice}) {
+    log(
+      "Applying filters: category=$category, minPrice=$minPrice, maxPrice=$maxPrice",
+    );
+
+    // Update filter state
+    _currentCategory = category;
+    if (minPrice != null) _minPrice = minPrice;
+    if (maxPrice != null) _maxPrice = maxPrice;
+
+    _applyAllFilters();
+  }
+
+  void _applyAllFilters() {
+    // Start with all items
+    _filteredItems = _allItems;
+
+    // Apply search filter if there's a query
+    if (_searchQuery.isNotEmpty) {
+      _filteredItems =
+          _filteredItems.where((item) {
+            return item.name.toLowerCase().contains(_searchQuery.toLowerCase());
+          }).toList();
+    }
+
+    // Apply category filter if a category is selected
+    if (_currentCategory != null && _currentCategory!.isNotEmpty) {
+      _filteredItems =
+          _filteredItems.where((item) {
+            return item.category.toLowerCase() ==
+                _currentCategory!.toLowerCase();
+          }).toList();
+    }
+    _filteredItems =
+        _filteredItems.where((item) {
+          return item.price >= _minPrice && item.price <= _maxPrice;
+        }).toList();
+
+    notifyListeners();
+  }
+
+  // Reset all filters
+  void resetFilters() {
+    _currentCategory = null;
+    _searchQuery = '';
+    _minPrice = 0;
+    _maxPrice = 1000;
+    _filteredItems = _allItems;
+    notifyListeners();
+  }
 }

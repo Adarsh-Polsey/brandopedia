@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FoodItemCard extends StatefulWidget {
   final Map<String, dynamic> item;
   final void Function()? cartOnTap;
+  final bool waiting;
 
-  const FoodItemCard({super.key, required this.item,required this.cartOnTap});
+  const FoodItemCard({
+    super.key,
+    required this.item,
+    required this.cartOnTap,
+    this.waiting = false,
+  });
 
   @override
   State<FoodItemCard> createState() => _FoodItemCardState();
@@ -23,17 +30,35 @@ class _FoodItemCardState extends State<FoodItemCard> {
 
   @override
   Widget build(BuildContext context) {
+    return widget.waiting ? _buildShimmerCard() : _buildRealCard();
+  }
+
+  Widget _buildShimmerCard() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        height: 140,
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRealCard() {
     final item = widget.item;
 
     return Container(
       height: 140,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
+            color: Colors.grey.withValues(alpha:0.15),
             spreadRadius: 2,
             blurRadius: 10,
             offset: Offset(0, 4),
@@ -42,7 +67,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
       ),
       child: Row(
         children: [
-          // Left side - Image
+          // Image with Favorite
           Stack(
             children: [
               ClipRRect(
@@ -54,7 +79,6 @@ class _FoodItemCardState extends State<FoodItemCard> {
                   fit: BoxFit.cover,
                 ),
               ),
-              // Favorite icon
               Positioned(
                 top: 10,
                 right: 10,
@@ -78,7 +102,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
             ],
           ),
 
-          // Right side - Content
+          // Right Content
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
@@ -86,17 +110,14 @@ class _FoodItemCardState extends State<FoodItemCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Name and Category
+                  // Title & Category
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: Text(
                           item["name"],
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -121,46 +142,31 @@ class _FoodItemCardState extends State<FoodItemCard> {
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
                         item["description"],
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
 
-                  // Price, Rating and Cart
+                  // Price, Rating, Cart
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Price
                       Text(
                         "₹${item["price"]}",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.green[700],
-                        ),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.green[700]),
                       ),
-                      
-                      // Rating
                       Row(
                         children: [
                           Icon(Icons.star, color: Colors.amber, size: 16),
                           SizedBox(width: 2),
-                          Text(
-                            "${item["rating"]}",
-                            style: TextStyle(fontSize: 12),
-                          ),
+                          Text("${item["rating"]}", style: TextStyle(fontSize: 12)),
                         ],
                       ),
-
-                      // Cart Icon
                       GestureDetector(
                         onTap: () {
-                          widget.cartOnTap;
+                          widget.cartOnTap?.call();
                           setState(() {
                             inCart = !inCart;
                           });

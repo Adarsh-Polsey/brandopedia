@@ -34,7 +34,7 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
         // Brandopedia name
-            AnimatedTextKit(onFinished: () => Navigator.pushReplacementNamed(context, '/home'),
+            AnimatedTextKit(onFinished: () => Navigator.pushReplacementNamed(context, '/nav'),
             totalRepeatCount: 1,
               animatedTexts: [
                 ColorizeAnimatedText(
