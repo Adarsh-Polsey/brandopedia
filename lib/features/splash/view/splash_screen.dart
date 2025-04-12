@@ -15,14 +15,27 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-        // Brandopedia logo
+            // Brandopedia logo
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColorpallete.secondaryColor,
+                gradient: RadialGradient(radius: 2.5,
+                  colors: [
+                    AppColorpallete.secondaryColor,
+                    AppColorpallete.primaryColor,
+                    AppColorpallete.secondaryColor,
+                  ],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColorpallete.secondaryColor.withOpacity(0.2),
+                    blurRadius: 20,
+                    spreadRadius: 5,
+                  ),
+                ],
               ),
               child: const Padding(
-                padding: EdgeInsets.all(30.0),
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
                   "B",
                   style: TextStyle(
@@ -33,24 +46,32 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-        // Brandopedia name
-            AnimatedTextKit(onFinished: () => Navigator.pushReplacementNamed(context, '/nav'),
-            totalRepeatCount: 1,
-              animatedTexts: [
-                ColorizeAnimatedText(
-                  "TheBrandopedia",
-                  textStyle: const TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                    color: AppColorpallete.secondaryColor,
-                  ),
-                  speed: const Duration(milliseconds: 270),
-                  colors: [
-                    AppColorpallete.secondaryColor,
-                    AppColorpallete.primaryColor,
+            // Brandopedia name
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: AnimatedTextKit(
+                  pause: Duration(milliseconds: 0),
+                  onFinished: () => Navigator.pushReplacementNamed(context, '/nav'),
+                  totalRepeatCount: 1,
+                  animatedTexts: [
+                    ColorizeAnimatedText(
+                      "TheBrandopedia",
+                      textStyle: const TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                        color: AppColorpallete.secondaryColor,
+                      ),
+                      speed: const Duration(milliseconds: 170),
+                      colors: [
+                        AppColorpallete.secondaryColor,
+                        AppColorpallete.primaryColor,
+                      ],
+                    ),
                   ],
                 ),
-              ],
+              ),
             ),
           ],
         ),

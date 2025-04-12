@@ -289,6 +289,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        // TODO all filter
+                        // _buildCategory(
+                        //   Icons.food_bank_outlined,
+                        //   'All',
+                        //   onTap: () => _selectCategory('All'),
+                        // ),
                         _buildCategory(
                           Icons.local_pizza,
                           'Food',
