@@ -52,14 +52,6 @@ class SplashScreen extends StatelessWidget {
                 ),
               ],
             ),
-
-              // "TheBrandopedia",
-              // style: TextStyle(
-              //   fontSize: 50,
-              //   fontWeight: FontWeight.bold,
-              //   color: AppColorpallete.secondaryColor,
-              // ),
-            // ),
           ],
         ),
       ),

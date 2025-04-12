@@ -1,4 +1,5 @@
 import 'package:brandopedia/common/app_theme.dart';
+import 'package:brandopedia/features/cart/view/cart_screen.dart';
 import 'package:brandopedia/features/home/view/home_screen.dart';
 import 'package:brandopedia/features/splash/view/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/home': (context) => const HomeScreen(),
+        '/cart': (context) =>  const CartScreen(),
       },
       );
   }
