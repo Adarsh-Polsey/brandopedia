@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class FoodItemCard extends StatefulWidget {
   final Map<String, dynamic> item;
-  const FoodItemCard({super.key, required this.item});
+  final void Function()? cartOnTap;
+
+  const FoodItemCard({super.key, required this.item,required this.cartOnTap});
 
   @override
   State<FoodItemCard> createState() => _FoodItemCardState();
@@ -158,6 +160,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                       // Cart Icon
                       GestureDetector(
                         onTap: () {
+                          widget.cartOnTap;
                           setState(() {
                             inCart = !inCart;
                           });

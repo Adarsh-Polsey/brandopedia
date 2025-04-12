@@ -1,7 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:brandopedia/common/app_theme.dart';
+import 'package:brandopedia/features/cart/viewmodel/cart_viewmodel.dart';
+import 'package:brandopedia/features/home/model/item_model.dart';
+import 'package:brandopedia/features/home/viewmodel/home_viewmodel.dart';
 import 'package:brandopedia/features/home/widgets/item_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,98 +16,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-final List<Map<String, dynamic>> foodItems = [
-  {
-    "name": "Margherita Pizza",
-    "category": "Food",
-    "price": 249,
-    "description": "Classic cheese pizza with tomato sauce and basil.",
-    "isVegetarian": true,
-    "rating": 4.5,
-    "imageUrl": "https://dummyimage.com/600x400/ffcc00/000000&text=Pizza"
-  },
-  {
-    "name": "Gulab Jamun",
-    "category": "Dessert",
-    "price": 99,
-    "description": "Deep-fried milk solids soaked in rose-flavored sugar syrup.",
-    "isVegetarian": true,
-    "rating": 4.8,
-    "imageUrl": "https://dummyimage.com/600x400/ff99cc/000000&text=Gulab+Jamun"
-  },
-  {
-    "name": "Chicken Biryani",
-    "category": "Food",
-    "price": 299,
-    "description": "Spicy rice dish with marinated chicken and aromatic spices.",
-    "isVegetarian": false,
-    "rating": 4.7,
-    "imageUrl": "https://dummyimage.com/600x400/ff9933/000000&text=Biryani"
-  },
-  {
-    "name": "Masala Dosa",
-    "category": "Food",
-    "price": 120,
-    "description": "South Indian rice crepe with spiced potato filling.",
-    "isVegetarian": true,
-    "rating": 4.6,
-    "imageUrl": "https://dummyimage.com/600x400/f4e542/000000&text=Masala+Dosa"
-  },
-  {
-    "name": "Mango Lassi",
-    "category": "Beverage",
-    "price": 79,
-    "description": "Sweet mango yogurt drink, chilled and refreshing.",
-    "isVegetarian": true,
-    "rating": 4.4,
-    "imageUrl": "https://dummyimage.com/600x400/f9c23c/000000&text=Mango+Lassi"
-  },
-  {
-    "name": "Paneer Butter Masala",
-    "category": "Food",
-    "price": 220,
-    "description": "Creamy tomato curry with soft paneer cubes.",
-    "isVegetarian": true,
-    "rating": 4.5,
-    "imageUrl": "https://dummyimage.com/600x400/ff3300/ffffff&text=Paneer"
-  },
-  {
-    "name": "Cold Coffee",
-    "category": "Beverage",
-    "price": 89,
-    "description": "Iced coffee blended with milk and sugar.",
-    "isVegetarian": true,
-    "rating": 4.3,
-    "imageUrl": "https://dummyimage.com/600x400/bfdbfe/000000&text=Cold+Coffee"
-  },
-  {
-    "name": "Butter Naan",
-    "category": "Food",
-    "price": 45,
-    "description": "Soft Indian bread brushed with butter.",
-    "isVegetarian": true,
-    "rating": 4.2,
-    "imageUrl": "https://dummyimage.com/600x400/fde68a/000000&text=Naan"
-  },
-  {
-    "name": "Veg Hakka Noodles",
-    "category": "Food",
-    "price": 180,
-    "description": "Stir-fried noodles with mixed vegetables and sauces.",
-    "isVegetarian": true,
-    "rating": 4.1,
-    "imageUrl": "https://dummyimage.com/600x400/7dd3fc/000000&text=Noodles"
-  },
-  {
-    "name": "Chocolate Milkshake",
-    "category": "Beverage",
-    "price": 110,
-    "description": "Creamy shake made with chocolate and milk.",
-    "isVegetarian": true,
-    "rating": 4.6,
-    "imageUrl": "https://dummyimage.com/600x400/9ca3af/000000&text=Milkshake"
-  },
-];
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask((){
+      context.read<HomeViewModel>().fetchFoodItems();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +46,9 @@ final List<Map<String, dynamic>> foodItems = [
                 AppColorpallete.primaryColor,
               ),
             ),
-            onPressed: () {Navigator.pushNamed(context, '/cart');},
+            onPressed: () {
+              Navigator.pushNamed(context, '/cart');
+            },
             icon: Icon(Icons.person),
           ),
         ],
@@ -142,14 +63,15 @@ final List<Map<String, dynamic>> foodItems = [
             decoration: InputDecoration(
               hintText: 'Search for restaurants or dishes...',
               prefixIcon: const Icon(Icons.search, color: Colors.grey),
-              suffixIcon: _searchController.text.isEmpty
-                  ? null
-                  : IconButton(
-                      onPressed: () {
-                        _searchController.clear();
-                      },
-                      icon: const Icon(Icons.clear),
-                    ),
+              suffixIcon:
+                  _searchController.text.isEmpty
+                      ? null
+                      : IconButton(
+                        onPressed: () {
+                          _searchController.clear();
+                        },
+                        icon: const Icon(Icons.clear),
+                      ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(35),
@@ -162,7 +84,7 @@ final List<Map<String, dynamic>> foodItems = [
               fillColor: Colors.grey.shade200,
             ),
             onChanged: (value) {
-              setState(() {});
+              context.read<HomeViewModel>().searchItems(value);
             },
           ),
           const SizedBox(height: 20),
@@ -181,34 +103,90 @@ final List<Map<String, dynamic>> foodItems = [
           const SizedBox(height: 20),
 
           // Offers Grid
-          SizedBox(height: 200,
-            child: Row(children: [
-              Expanded(flex: 1,
-                child: _buildOfferCard("50% off", "Get it now", [AppColorpallete.sideColor1.withAlpha(150),AppColorpallete.sideColor1]),
-              ),
-                    const SizedBox(width: 10),
-
-              Flexible(flex: 1,
-                child: Column(mainAxisSize:MainAxisSize.max,
-                  children: [
-                    Expanded(child: _buildOfferCard("30% off", "Try it now", [AppColorpallete.sideColor2.withAlpha(150),AppColorpallete.sideColor2],button:false)),
-                    const SizedBox(height: 10),
-                    Expanded(child: _buildOfferCard("50% off", "USE 302406",[AppColorpallete.sideColor3.withAlpha(150),AppColorpallete.sideColor3],button: false)),
-                  ],
+          SizedBox(
+            height: 200,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: _buildOfferCard("50% off", "Get it now", [
+                    AppColorpallete.sideColor1.withAlpha(150),
+                    AppColorpallete.sideColor1,
+                  ]),
                 ),
-              )
-            ],),
+                const SizedBox(width: 10),
+
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: _buildOfferCard("30% off", "Try it now", [
+                          AppColorpallete.sideColor2.withAlpha(150),
+                          AppColorpallete.sideColor2,
+                        ], button: false),
+                      ),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: _buildOfferCard("50% off", "USE 302406", [
+                          AppColorpallete.sideColor3.withAlpha(150),
+                          AppColorpallete.sideColor3,
+                        ], button: false),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 20),
-          Center(child: Text("Explore", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
-
+          Center(
+            child: Text(
+              "Explore",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+          ),
 
           // Item Card
-          ListView.builder(itemBuilder:(context,index)=> FoodItemCard(item: foodItems[index]), itemCount: foodItems.length, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),),
+          Builder(
+            builder: (context) {
+              final List<Item> foodItems = context.watch<HomeViewModel>().foodItems;
+              if(context.watch<HomeViewModel>().isLoading){
+                return const Center(
+                  child: Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 40)
+                    ],
+                  ),
+                );
+              }else if(context.watch<HomeViewModel>().foodItems.isNotEmpty){
+              return ListView.builder(
+                itemBuilder:
+                    (context, index) => FoodItemCard(item: foodItems[index].toMap(), cartOnTap: () { context.read<CartViewModel>().addToCart(foodItems[index].toMap()); },),
+                itemCount: foodItems.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+              );}
+              else{
+                return const Center(
+                  child: Column(
+                    children: [
+                      Text("No items found"),
+                      SizedBox(height: 40),
+                    ],
+                  ),
+                );
+              }
+              
+            },
+          ),
 
-          Center(child: AnimatedTextKit(
-            repeatForever: true,
+          Center(
+            child: AnimatedTextKit(
+              repeatForever: true,
               animatedTexts: [
                 ColorizeAnimatedText(
                   "TheBrandopedia",
@@ -226,7 +204,8 @@ final List<Map<String, dynamic>> foodItems = [
                   ],
                 ),
               ],
-            ),)
+            ),
+          ),
         ],
       ),
     );
@@ -246,31 +225,49 @@ final List<Map<String, dynamic>> foodItems = [
     );
   }
 
-  Widget _buildOfferCard(String text, String subTitle, List<Color> color,{bool button=true}) {
+  Widget _buildOfferCard(
+    String text,
+    String subTitle,
+    List<Color> color, {
+    bool button = true,
+  }) {
     return Container(
       constraints: BoxConstraints.expand(),
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: color,begin: Alignment.topLeft, end: Alignment.bottomRight),
+        gradient: LinearGradient(
+          colors: color,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(text,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          button?           ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                minimumSize: Size(20, 28),
-                textStyle: TextStyle(fontSize: 12),
+          Text(
+            text,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          button
+              ? ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  minimumSize: Size(20, 28),
+                  textStyle: TextStyle(fontSize: 12),
+                ),
+                onPressed: () {},
+                child: Text(subTitle),
+              )
+              : Text(
+                subTitle,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              onPressed: () {},
-              child: Text(subTitle),
-            ):Text(subTitle,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         ],
       ),
     );
