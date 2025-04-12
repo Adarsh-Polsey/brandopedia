@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:brandopedia/features/cart/viewmodel/cart_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -8,12 +12,9 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  int quickBitesQuantity = 1;
-  int margheritaPizzaQuantity = 1;
-  int gulabJamunQuantity = 1;
-
   @override
   Widget build(BuildContext context) {
+    double total = context.watch<CartViewModel>().totalPrice;
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
@@ -31,11 +32,12 @@ class _CartScreenState extends State<CartScreen> {
           IconButton(
             icon: Icon(Icons.delete_outline, color: Colors.grey),
             onPressed: () {
-              // Clear cart functionality
+              context.read<CartViewModel>().clearCart();
             },
           ),
         ],
       ),
+
       body: Column(
         children: [
           Expanded(
@@ -47,55 +49,65 @@ class _CartScreenState extends State<CartScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
                     child: Text(
-                      "${getTotalItems()} items in your cart",
+                      "${context.watch<CartViewModel>().itemCount} items in your cart",
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey.shade600,
                       ),
                     ),
                   ),
-                  ListView(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    children: [
-                      cartItem(
-                        title: "Quick Bites",
-                        subtitle: "Delicious quick bites",
-                        quantity: quickBitesQuantity,
-                        price: 150,
-                        imageUrl: "https://via.placeholder.com/80",
-                        onAdd: () => setState(() => quickBitesQuantity++),
-                        onRemove: () => setState(() {
-                          if (quickBitesQuantity > 0) quickBitesQuantity--;
-                        }),
-                      ),
-                      cartItem(
-                        title: "Margherita Pizza",
-                        subtitle: "Classic cheese pizza",
-                        quantity: margheritaPizzaQuantity,
-                        price: 300,
-                        imageUrl: "https://via.placeholder.com/80",
-                        onAdd: () => setState(() => margheritaPizzaQuantity++),
-                        onRemove: () => setState(() {
-                          if (margheritaPizzaQuantity > 0) margheritaPizzaQuantity--;
-                        }),
-                      ),
-                      cartItem(
-                        title: "Gulab Jamun",
-                        subtitle: "Sweet dessert",
-                        quantity: gulabJamunQuantity,
-                        price: 50,
-                        imageUrl: "https://via.placeholder.com/80",
-                        onAdd: () => setState(() => gulabJamunQuantity--),
-                        onRemove: () => setState(() {
-                          if (gulabJamunQuantity > 0) gulabJamunQuantity--;
-                        }),
-                      ),
-                    ],
+                  Builder(
+                    builder: (context) {
+                      final cartItems =
+                          context.watch<CartViewModel>().cartItems;
+                      log(cartItems.toString());
+                      if (cartItems.isNotEmpty) {
+                        return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: cartItems.length,
+                          itemBuilder: (context, index) {
+                            return cartItem(
+                              title: cartItems[index]['name'].toString(),
+                              subtitle:
+                                  cartItems[index]['description'].toString(),
+                              quantity: cartItems[index]['quantity'],
+                              price: cartItems[index]['price'],
+                              imageUrl: cartItems[index]['imageUrl'].toString(),
+                              onAdd: () {
+                                context
+                                    .read<CartViewModel>()
+                                    .increaseQuantity(cartItems[index]['name']);
+                              },
+                              onRemove: () {
+                                context
+                                    .read<CartViewModel>()
+                                    .decreaseQuantity(cartItems[index]['name']);
+                                if (cartItems[index]['quantity'] == 0) {
+                                  context
+                                      .read<CartViewModel>()
+                                      .removeFromCart(cartItems[index]['name']);
+                                }
+                              },
+                            );
+                          },
+                        );
+                      } else {
+                        return Center(
+                          child: Text(
+                            "Your cart is empty",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   ),
-                  
+
                   SizedBox(height: 20),
-                  
+
                   // Coupon section
                   Container(
                     padding: EdgeInsets.all(16),
@@ -118,12 +130,14 @@ class _CartScreenState extends State<CartScreen> {
                         Expanded(
                           child: Text(
                             "Apply Coupon Code",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.w500),
                           ),
                         ),
-                        Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
                       ],
                     ),
                   ),
@@ -131,7 +145,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
           ),
-          
+
           // Order summary
           Container(
             padding: EdgeInsets.all(20),
@@ -157,15 +171,11 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     Text(
                       "Subtotal",
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                      ),
+                      style: TextStyle(color: Colors.grey.shade600),
                     ),
                     Text(
-                      "₹${totalAmount() - 40}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
+                      "₹${context.watch<CartViewModel>().totalPrice}",
+                      style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
@@ -175,16 +185,9 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     Text(
                       "Delivery Fee",
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                      ),
+                      style: TextStyle(color: Colors.grey.shade600),
                     ),
-                    Text(
-                      "₹40",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    Text("${total==0?0:40}", style: TextStyle(fontWeight: FontWeight.w500)),
                   ],
                 ),
                 Padding(
@@ -202,7 +205,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                     ),
                     Text(
-                      "₹${totalAmount()}",
+                      "₹${total == 0 ? 0 : total + 40}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -225,10 +228,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   child: Text(
                     "Checkout",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -274,20 +274,21 @@ class _CartScreenState extends State<CartScreen> {
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: 80,
-                  height: 80,
-                  color: Colors.deepPurple.shade50,
-                  child: Icon(
-                    Icons.fastfood,
-                    color: Colors.deepPurple.shade200,
-                    size: 40,
-                  ),
-                ),
+                errorBuilder:
+                    (context, error, stackTrace) => Container(
+                      width: 80,
+                      height: 80,
+                      color: Colors.deepPurple.shade50,
+                      child: Icon(
+                        Icons.fastfood,
+                        color: Colors.deepPurple.shade200,
+                        size: 40,
+                      ),
+                    ),
               ),
             ),
             SizedBox(width: 16),
-            
+
             // Food details
             Expanded(
               child: Column(
@@ -295,18 +296,12 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -319,7 +314,7 @@ class _CartScreenState extends State<CartScreen> {
                 ],
               ),
             ),
-            
+
             // Quantity controls
             Container(
               decoration: BoxDecoration(
@@ -336,9 +331,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   Text(
                     quantity.toString(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   IconButton(
                     constraints: BoxConstraints(minWidth: 36, minHeight: 36),
@@ -353,13 +346,5 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
     );
-  }
-
-  double totalAmount() {
-    return (quickBitesQuantity * 150) + (margheritaPizzaQuantity * 300) + (gulabJamunQuantity * 50) + 40; // Adding delivery fee
-  }
-  
-  int getTotalItems() {
-    return quickBitesQuantity + margheritaPizzaQuantity + gulabJamunQuantity;
   }
 }

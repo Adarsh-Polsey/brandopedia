@@ -310,8 +310,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           Icons.favorite,
                           'Favorites',
                           onTap:
-                              () =>
-                                  Navigator.pushNamed(context, '/favorites'),
+                              () => Navigator.pushNamed(context, '/favorites'),
                         ),
                       ],
                     ),
@@ -426,6 +425,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             item: {},
                             cartOnTap: () {},
                             waiting: true,
+                            inCart: false,
                           );
                         },
                         itemCount: 5,
@@ -475,38 +475,103 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             padding: const EdgeInsets.only(bottom: 12.0),
                             child: FoodItemCard(
                               item: viewModel.foodItems[index].toMap(),
-                              cartOnTap: () {
-                                context.read<CartViewModel>().addToCart(
-                                  viewModel.foodItems[index].toMap(),
-                                );
+                              cartOnTap:
+                                  !context.read<CartViewModel>().isInCart(
+                                        viewModel.foodItems[index].name,
+                                      )
+                                      ? () {
+                                        context.read<CartViewModel>().addToCart(
+                                          viewModel.foodItems[index].toMap(),
+                                        );
 
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.check_circle,
-                                          color: Colors.white,
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Text(
-                                          "Added ${viewModel.foodItems[index].name} to cart",
-                                        ),
-                                      ],
-                                    ),
-                                    duration: const Duration(seconds: 1),
-                                    behavior: SnackBarBehavior.floating,
-                                    action: SnackBarAction(
-                                      label: 'VIEW CART',
-                                      onPressed: () {
-                                        Navigator.pushNamed(context, '/cart');
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.check_circle,
+                                                  color: Colors.white,
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Expanded(
+                                                  child: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: Text(
+                                                      "Added ${viewModel.foodItems[index].name} to cart",
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            duration: const Duration(
+                                              seconds: 1,
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                            action: SnackBarAction(
+                                              label: 'VIEW CART',
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  '/cart',
+                                                );
+                                              },
+                                            ),
+                                            backgroundColor:
+                                                AppColorpallete.primaryColor,
+                                          ),
+                                        );
+                                      }
+                                      : () {
+                                        context
+                                            .read<CartViewModel>()
+                                            .removeFromCart(
+                                              viewModel.foodItems[index].name,
+                                            );
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.check_circle,
+                                                  color: Colors.white,
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Expanded(
+                                                  child: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: Text(
+                                                      "Removed ${viewModel.foodItems[index].name} from cart",
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            duration: const Duration(
+                                              seconds: 1,
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                            action: SnackBarAction(
+                                              label: 'VIEW CART',
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  '/cart',
+                                                );
+                                              },
+                                            ),
+                                            backgroundColor:
+                                                AppColorpallete.primaryColor,
+                                          ),
+                                        );
                                       },
-                                    ),
-                                    backgroundColor:
-                                        AppColorpallete.primaryColor,
-                                  ),
-                                );
-                              },
+                              inCart: context.watch<CartViewModel>().isInCart(
+                                viewModel.foodItems[index].name,
+                              ),
                             ),
                           );
                         },

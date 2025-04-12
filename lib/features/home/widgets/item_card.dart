@@ -5,12 +5,13 @@ class FoodItemCard extends StatefulWidget {
   final Map<String, dynamic> item;
   final void Function()? cartOnTap;
   final bool waiting;
+  final bool inCart;
 
   const FoodItemCard({
     super.key,
     required this.item,
     required this.cartOnTap,
-    this.waiting = false,
+    this.waiting = false, required this.inCart,
   });
 
   @override
@@ -19,13 +20,12 @@ class FoodItemCard extends StatefulWidget {
 
 class _FoodItemCardState extends State<FoodItemCard> {
   late bool isFavourite;
-  late bool inCart;
-
+  late bool isInCart;
   @override
   void initState() {
     super.initState();
     isFavourite = widget.item['isFavourite'] ?? false;
-    inCart = widget.item['inCart'] ?? false;
+    isInCart = widget.inCart;
   }
 
   @override
@@ -168,7 +168,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                         onTap: () {
                           widget.cartOnTap?.call();
                           setState(() {
-                            inCart = !inCart;
+                            isInCart =!isInCart;
                           });
                         },
                         child: Container(
@@ -178,9 +178,9 @@ class _FoodItemCardState extends State<FoodItemCard> {
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
-                            inCart ? Icons.shopping_cart : Icons.add_shopping_cart,
+                            isInCart ? Icons.shopping_cart : Icons.add_shopping_cart,
                             color: Colors.green.shade800,
-                            size: 16,
+                            size: 25,
                           ),
                         ),
                       ),
