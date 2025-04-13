@@ -277,6 +277,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           if (value?.isEmpty ?? true) {
             return 'Please enter your phone number';
           }
+          if(value?.length!=10){
+            return 'Phone number must be 10 digits';
+          }
           return null;
         },
       ),
