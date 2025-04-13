@@ -51,7 +51,6 @@ class SplashScreen extends StatelessWidget {
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: AnimatedTextKit(
-                  pause: Duration(milliseconds: 0),
                   onFinished: () => Navigator.pushReplacementNamed(context, '/nav'),
                   totalRepeatCount: 1,
                   animatedTexts: [
@@ -62,7 +61,7 @@ class SplashScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: AppColorpallete.secondaryColor,
                       ),
-                      speed: const Duration(milliseconds: 170),
+                      speed: const Duration(milliseconds: 300),
                       colors: [
                         AppColorpallete.secondaryColor,
                         AppColorpallete.primaryColor,
