@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  // TODO: Factorize _buildWidget , Add photos for dishes
+  // TODO: Factorize _buildWidget , Add photos for dishes, offer section home screen - tidy up
   runApp(
     MultiProvider(
       providers: [

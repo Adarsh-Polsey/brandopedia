@@ -1,22 +1,38 @@
-import 'package:flutter/material.dart';
+import 'package:brandopedia/features/cart/service/cart_database_service.dart';
+import 'package:flutter/foundation.dart';
 
 class CartViewModel extends ChangeNotifier {
   final List<Map<String, dynamic>> _cartItems = [];
 
   List<Map<String, dynamic>> get cartItems => _cartItems;
 
-  void addToCart(Map<String, dynamic> item) {
+  CartViewModel() {
+    _loadCartFromDb();
+  }
+
+  Future<void> _loadCartFromDb() async {
+    final data = await CartDbService.getCartItems();
+    _cartItems.clear();
+    _cartItems.addAll(data);
+    notifyListeners();
+  }
+
+  Future<void> addToCart(Map<String, dynamic> item) async {
     final index = _cartItems.indexWhere((e) => e['name'] == item['name']);
     if (index != -1) {
       _cartItems[index]['quantity'] += 1;
+      await CartDbService.increaseQuantity(item['name']);
     } else {
-      _cartItems.add({...item, 'quantity': 1});
+      final newItem = {...item, 'quantity': 1};
+      _cartItems.add(newItem);
+      await CartDbService.addToCart(newItem);
     }
     notifyListeners();
   }
 
-  void removeFromCart(String itemName) {
+  Future<void> removeFromCart(String itemName) async {
     _cartItems.removeWhere((item) => item['name'] == itemName);
+    await CartDbService.removeFromCart(itemName);
     notifyListeners();
   }
 
@@ -25,8 +41,9 @@ class CartViewModel extends ChangeNotifier {
       total + (item['price'] * (item['quantity'] ?? 1)));
   }
 
-  void clearCart() {
+  Future<void> clearCart() async {
     _cartItems.clear();
+    await CartDbService.clearCart();
     notifyListeners();
   }
 
@@ -38,37 +55,32 @@ class CartViewModel extends ChangeNotifier {
     return _cartItems.any((item) => item['name'] == itemName);
   }
 
-  void toggleItem(Map<String, dynamic> item) {
+  Future<void> toggleItem(Map<String, dynamic> item) async {
     if (isInCart(item['name'])) {
-      removeFromCart(item['name']);
+      await removeFromCart(item['name']);
     } else {
-      addToCart(item);
+      await addToCart(item);
     }
   }
 
-  void increaseQuantity(String itemName) {
+  Future<void> increaseQuantity(String itemName) async {
     final index = _cartItems.indexWhere((item) => item['name'] == itemName);
     if (index != -1) {
       _cartItems[index]['quantity'] += 1;
+      await CartDbService.increaseQuantity(itemName);
       notifyListeners();
     }
   }
 
-  void decreaseQuantity(String itemName) {
+  Future<void> decreaseQuantity(String itemName) async {
     final index = _cartItems.indexWhere((item) => item['name'] == itemName);
     if (index != -1 && _cartItems[index]['quantity'] > 1) {
       _cartItems[index]['quantity'] -= 1;
+      await CartDbService.decreaseQuantity(itemName);
     } else if (index != -1) {
       _cartItems.removeAt(index);
+      await CartDbService.removeFromCart(itemName);
     }
     notifyListeners();
-  }
-
-  void updateItemQuantity(String itemName, int quantity) {
-    final index = _cartItems.indexWhere((item) => item['name'] == itemName);
-    if (index != -1) {
-      _cartItems[index]['quantity'] = quantity;
-      notifyListeners();
-    }
   }
 }

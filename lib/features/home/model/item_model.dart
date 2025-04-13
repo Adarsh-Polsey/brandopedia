@@ -1,4 +1,5 @@
 class Item {
+  final String id;
   final String name;
   final String category;
   final double price;
@@ -6,7 +7,7 @@ class Item {
   final double rating;
   final String imageUrl;
 
-  Item({
+  Item( {required this.id,
     required this.name,
     required this.category,
     required this.price,
@@ -16,15 +17,17 @@ class Item {
   });
 
   factory Item.fromMap(Map<String, dynamic> map) => Item(
+    id:  map['id'],
     name: map['name'],
     category: map['category'],
     price: map['price'].toDouble(),
     description: map['description'],
     rating: map['rating'].toDouble(),
-    imageUrl: map['imageUrl'],
+    imageUrl: map['imageUrl'], 
   );
 
   Map<String, dynamic> toMap() => {
+    'id':id,
     'name': name,
     'category': category,
     'price': price,

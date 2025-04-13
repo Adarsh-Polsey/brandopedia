@@ -4,7 +4,7 @@ class HomeRepository {
   // Dummy data
   final List<Map<String, dynamic>> _foodItems = [
   {
-    "id": 1,
+    "id": "item_1",
     "name": "Margherita Pizza",
     "category": "Food",
     "price": 249,
@@ -14,7 +14,7 @@ class HomeRepository {
     "imageUrl": "https://dummyimage.com/600x400/ffcc00/000000&text=Pizza",
   },
   {
-    "id": 2,
+    "id": "item_2",
     "name": "Gulab Jamun",
     "category": "Dessert",
     "price": 99,
@@ -24,7 +24,7 @@ class HomeRepository {
     "imageUrl": "https://dummyimage.com/600x400/ff99cc/000000&text=Gulab+Jamun",
   },
   {
-    "id": 3,
+    "id": "item_3",
     "name": "Chicken Biryani",
     "category": "Food",
     "price": 299,
@@ -34,7 +34,7 @@ class HomeRepository {
     "imageUrl": "https://dummyimage.com/600x400/ff9933/000000&text=Biryani",
   },
   {
-    "id": 4,
+    "id": "item_4",
     "name": "Masala Dosa",
     "category": "Food",
     "price": 120,
@@ -44,7 +44,7 @@ class HomeRepository {
     "imageUrl": "https://dummyimage.com/600x400/f4e542/000000&text=Masala+Dosa",
   },
   {
-    "id": 5,
+    "id": "item_5",
     "name": "Mango Lassi",
     "category": "Beverage",
     "price": 79,
@@ -54,7 +54,7 @@ class HomeRepository {
     "imageUrl": "https://dummyimage.com/600x400/f9c23c/000000&text=Mango+Lassi",
   },
   {
-    "id": 6,
+    "id": "item_6",
     "name": "Paneer Butter Masala",
     "category": "Food",
     "price": 220,
@@ -64,7 +64,7 @@ class HomeRepository {
     "imageUrl": "https://dummyimage.com/600x400/ff3300/ffffff&text=Paneer",
   },
   {
-    "id": 7,
+    "id": "item_7",
     "name": "Cold Coffee",
     "category": "Beverage",
     "price": 89,
@@ -74,7 +74,7 @@ class HomeRepository {
     "imageUrl": "https://dummyimage.com/600x400/bfdbfe/000000&text=Cold+Coffee",
   },
   {
-    "id": 8,
+    "id": "item_8",
     "name": "Butter Naan",
     "category": "Food",
     "price": 45,
@@ -84,7 +84,7 @@ class HomeRepository {
     "imageUrl": "https://dummyimage.com/600x400/fde68a/000000&text=Naan",
   },
   {
-    "id": 9,
+    "id": "item_9",
     "name": "Veg Hakka Noodles",
     "category": "Food",
     "price": 180,
@@ -94,7 +94,7 @@ class HomeRepository {
     "imageUrl": "https://dummyimage.com/600x400/7dd3fc/000000&text=Noodles",
   },
   {
-    "id": 10,
+    "id": "item_10",
     "name": "Chocolate Milkshake",
     "category": "Beverage",
     "price": 110,
