@@ -88,54 +88,19 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       builder: (context, viewModel, child) {
         return Scaffold(
           backgroundColor: theme.scaffoldBackgroundColor,
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            title: Text(
-              'Profile',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: theme.textTheme.titleLarge?.color,
-              ),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: Row(
-                  children: [
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: Text(
-                        viewModel.isEditMode ? 'Edit Mode' : 'View Mode',
-                        key: ValueKey<bool>(viewModel.isEditMode),
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: viewModel.isEditMode 
-                            ? theme.primaryColor 
-                            : theme.textTheme.bodyMedium?.color,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Transform.scale(
-                      scale: 0.8,
-                      child: Switch(
-                        value: viewModel.isEditMode,
-                        onChanged: (_) {
-                          HapticFeedback.lightImpact();
-                          viewModel.toggleEditMode();
-                        },
-                        activeColor: theme.primaryColor,
-                        activeTrackColor: theme.primaryColor.withValues(alpha:0.3),
-                        inactiveThumbColor: Colors.grey.shade400,
-                        inactiveTrackColor: Colors.grey.shade300,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+           appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          viewModel.isEditMode ? 'Edit Profile' : 'View Profile',
+          style: TextStyle(
+            color: Colors.deepPurple,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+            
           ),
           body: viewModel.isLoading
               ? const Center(
@@ -219,7 +184,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             const SizedBox(height: 40),
                             ..._buildFormFields(theme, viewModel),
                             const SizedBox(height: 32),
-                            if (viewModel.isEditMode)
                               _buildSaveButton(viewModel, theme),
                             const SizedBox(height: 40),
                           ],
@@ -380,7 +344,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       width: double.infinity,
       height: 56,
       child: ElevatedButton(
-        onPressed: () {
+        onPressed:(!viewModel.isEditMode)?(){
+         viewModel.toggleEditMode();}: () {
           if (_formKey.currentState!.validate()) {
             HapticFeedback.mediumImpact();
             viewModel.saveProfile(
@@ -391,6 +356,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             );
             
             // Show success snackbar
+            
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Profile updated successfully'),
@@ -405,8 +371,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           }
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: theme.primaryColor,
-          foregroundColor: Colors.white,
+          backgroundColor: viewModel.isEditMode?theme.primaryColor:theme.primaryColor.withValues(alpha: 0.1),
+
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -415,11 +381,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.check_circle_outline),
+            Icon(Icons.check_circle_outline,color:viewModel.isEditMode?Colors.white:theme.primaryColor,),
             const SizedBox(width: 8),
             Text(
-              'Save Profile',
+              viewModel.isEditMode?'Save Profile':'Edit Profile',
               style: TextStyle(
+                color:viewModel.isEditMode?Colors.white:theme.primaryColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),

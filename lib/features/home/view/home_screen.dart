@@ -410,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
 
-                // Food Items List with animations
+                // Food Items List
                 Consumer<HomeViewModel>(
                   builder: (context, viewModel, _) {
                     if (viewModel.isLoading) {

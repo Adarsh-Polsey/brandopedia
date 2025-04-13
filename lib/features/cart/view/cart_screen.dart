@@ -390,7 +390,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
 
             SizedBox(height: 20),
 
-            // Enhanced coupon section
+            //coupon section
             TweenAnimationBuilder<double>(
               tween: Tween<double>(begin: 0.0, end: 1.0),
               duration: Duration(milliseconds: 800),
@@ -482,20 +482,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                   scrollDirection: Axis.horizontal,
                   itemCount: 3,
                   itemBuilder: (context, index) {
-                    return TweenAnimationBuilder<double>(
-                      tween: Tween<double>(begin: 0.0, end: 1.0),
-                      duration: Duration(milliseconds: 400 + (index * 100)),
-                      curve: Curves.easeOutCubic,
-                      builder: (context, value, child) {
-                        return Transform.translate(
-                          offset: Offset(20 * (1 - value), 0),
-                          child: Opacity(
-                            opacity: value,
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: Container(
+                    return  Container(
                         width: 240,
                         margin: EdgeInsets.only(right: 16),
                         padding: EdgeInsets.all(10),
@@ -562,9 +549,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    );
+                        ));
                   },
                 ),
               ),

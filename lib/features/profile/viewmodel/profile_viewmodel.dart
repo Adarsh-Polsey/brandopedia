@@ -28,7 +28,7 @@ class ProfileViewModel extends ChangeNotifier {
     try {
       _profile = await _repository.loadProfile();
     } catch (e) {
-      log('Error loading profile: $e');
+      throw Exception('Error loading profile: $e');
     }
 
     _isLoading = false;

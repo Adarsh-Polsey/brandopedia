@@ -12,7 +12,6 @@ class ProfileRepository {
   Future<ProfileModel> loadProfile() async {
     final prefs = await SharedPreferences.getInstance();
     final profileJson = prefs.getString(_profileKey);
-    log('Profile JSON: $profileJson');
     if (profileJson != null) {
       return ProfileModel.fromJson(Map<String, dynamic>.from(
         json.decode(profileJson),

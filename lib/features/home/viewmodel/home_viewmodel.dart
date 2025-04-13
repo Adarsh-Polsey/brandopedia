@@ -21,7 +21,6 @@ class HomeViewModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   void fetchFoodItems() async {
-    log("Fetching food items");
     _isLoading = true;
     notifyListeners();
 
@@ -38,9 +37,6 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void applyFilters({String? category, double? minPrice, double? maxPrice}) {
-    log(
-      "Applying filters: category=$category, minPrice=$minPrice, maxPrice=$maxPrice",
-    );
 
     // Update filter state
     _currentCategory = category;
