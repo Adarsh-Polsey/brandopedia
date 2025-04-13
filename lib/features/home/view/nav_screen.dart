@@ -45,7 +45,7 @@ class _NavScreenState extends State<NavScreen> {
           ),
         ],
       ),
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(vertical:15,horizontal: 30),
       child:GNav(
           backgroundColor: Colors.transparent,
           selectedIndex: _selectedIndex,
