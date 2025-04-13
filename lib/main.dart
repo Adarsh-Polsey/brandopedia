@@ -4,6 +4,7 @@ import 'package:brandopedia/features/cart/viewmodel/cart_viewmodel.dart';
 import 'package:brandopedia/features/home/view/home_screen.dart';
 import 'package:brandopedia/features/home/view/nav_screen.dart';
 import 'package:brandopedia/features/home/viewmodel/home_viewmodel.dart';
+import 'package:brandopedia/features/profile/viewmodel/profile_viewmodel.dart';
 import 'package:brandopedia/features/splash/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => CartViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModel()),
+        ChangeNotifierProvider(create: (context) => ProfileViewModel()),
       ],
       child: const MyApp(),
     ),

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:brandopedia/common/app_theme.dart';
 import 'package:brandopedia/features/cart/view/cart_screen.dart';
 import 'package:brandopedia/features/home/view/home_screen.dart';
+import 'package:brandopedia/features/profile/view/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -19,7 +20,7 @@ class _NavScreenState extends State<NavScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
     CartScreen(),
-    Center(child: Text("Profile Screen")),
+    ProfileScreen()
   ];
 
   @override
