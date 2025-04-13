@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:brandopedia/features/profile/model/profile_model.dart';
 import 'package:brandopedia/features/profile/repository/profile_repository.dart';
 import 'package:flutter/material.dart';

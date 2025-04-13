@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:brandopedia/features/home/model/item_model.dart';
 import 'package:brandopedia/features/home/repository/home_repository.dart';
