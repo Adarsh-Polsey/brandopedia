@@ -69,12 +69,13 @@ class HomeViewModel extends ChangeNotifier {
             return item.category.toLowerCase() ==
                 _currentCategory!.toLowerCase();
           }).toList();
+    }else{
+      _filteredItems=_allItems;
     }
     _filteredItems =
         _filteredItems.where((item) {
           return item.price >= _minPrice && item.price <= _maxPrice;
         }).toList();
-
     notifyListeners();
   }
 

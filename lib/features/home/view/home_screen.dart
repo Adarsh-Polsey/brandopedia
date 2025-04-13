@@ -79,52 +79,37 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 2,
-        backgroundColor: Colors.white,
-        title: Center(
-          child: AnimatedTextKit(
-            repeatForever: true,
-            animatedTexts: [
-              ColorizeAnimatedText(
-                "TheBrandopedia",
-                textStyle: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-                speed: const Duration(milliseconds: 700),
-                colors: [
-                  AppColorpallete.primaryColor,
-                  Colors.purple,
-                  AppColorpallete.primaryColor,
-                ],
+      appBar: AppBar(toolbarHeight: 50,
+        elevation: 0,foregroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,scrolledUnderElevation: 0,
+        title: AnimatedTextKit(
+          repeatForever: true,
+          animatedTexts: [
+            ColorizeAnimatedText(
+              "TheBrandopedia",
+              textStyle: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+              speed: const Duration(milliseconds: 700),
+              colors: [
+                AppColorpallete.primaryColor,
+                Colors.purple,
+                AppColorpallete.primaryColor,
+              ],
+            ),
+          ],
         ),
         centerTitle: true,
         actions: [
           InkWell(
             onTap: _showLocationSelectionDialog,
             child: Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Row(
-                children: [
-                  Text(
-                    _selectedLocation,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: AppColorpallete.primaryColor,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    Icons.location_on,
-                    color: AppColorpallete.primaryColor,
-                    size: 18,
-                  ),
-                ],
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.location_on,
+                color: AppColorpallete.primaryColor,
+                size: 22,
               ),
             ),
           ),
@@ -136,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 10),
                   child: Column(
                     children: [
                       // Search and Filter Row
@@ -289,21 +274,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // TODO all filter
-                        // _buildCategory(
-                        //   Icons.food_bank_outlined,
-                        //   'All',
-                        //   onTap: () => _selectCategory('All'),
-                        // ),
                         _buildCategory(
-                          Icons.local_pizza,
-                          'Food',
-                          onTap: () => _selectCategory('Food'),
+                          _selectedCategory == 'Food'?Icons.food_bank_outlined:Icons.local_pizza,
+                          _selectedCategory == 'Food'?'All':'Food',
+                          onTap: () => _selectedCategory == 'Food'?_selectCategory('All'):_selectCategory('Food'),
                         ),
                         _buildCategory(
-                          Icons.local_cafe,
-                          'Beverages',
-                          onTap: () => _selectCategory('Beverage'),
+                          _selectedCategory == 'Beverage'?Icons.food_bank_outlined:Icons.local_cafe,
+                          _selectedCategory == 'Beverage'?'All':'Beverage',
+                          onTap: () =>  _selectedCategory == 'Beverage'?_selectCategory('All'):_selectCategory('Beverage'),
                         ),
 
                         _buildCategory(
@@ -408,13 +387,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         stops: const [0.0, 0.5, 1.0],
                       ).createShader(bounds);
                     },
-                    child: const Text(
-                      "Explore",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Explore",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                          Text(
+                          "What's in $_selectedLocation",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -675,7 +666,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         duration: Duration(seconds: 2),
                       ),
                     );
-                    // Simulate location detection
                     Future.delayed(const Duration(seconds: 2), () {
                       setState(() {
                         _selectedLocation = "Chennai";
