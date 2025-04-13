@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:brandopedia/features/profile/model/profile_model.dart';
 import 'package:brandopedia/features/profile/repository/profile_repository.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +28,7 @@ class ProfileViewModel extends ChangeNotifier {
     try {
       _profile = await _repository.loadProfile();
     } catch (e) {
-      print('Error loading profile: $e');
+      log('Error loading profile: $e');
     }
 
     _isLoading = false;

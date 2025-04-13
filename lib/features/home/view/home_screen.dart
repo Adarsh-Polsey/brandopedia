@@ -591,7 +591,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildLocationPickerOverlay() {
     return Positioned.fill(
       child: Container(
-        color: Colors.black.withOpacity(0.5),
+        color: Colors.black.withValues(alpha:0.5),
         child: Center(
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 40),
@@ -637,7 +637,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                     title: Text(_availableLocations[index]),
                     selected: _selectedLocation == _availableLocations[index],
-                    selectedTileColor: AppColorpallete.primaryColor.withOpacity(
+                    selectedTileColor: AppColorpallete.primaryColor.withValues(alpha:
                       0.1,
                     ),
                     shape: RoundedRectangleBorder(
@@ -858,7 +858,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             },
             child: CircleAvatar(
               radius: 28,
-              backgroundColor: AppColorpallete.primaryColor.withOpacity(0.1),
+              backgroundColor: AppColorpallete.primaryColor.withValues(alpha:0.1),
               child: Icon(icon, color: AppColorpallete.primaryColor, size: 24),
             ),
           ),
@@ -889,7 +889,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha:0.2),
               spreadRadius: 1,
               blurRadius: 4,
               offset: const Offset(0, 2),

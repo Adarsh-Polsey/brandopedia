@@ -90,7 +90,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                   },
                   child: CircleAvatar(
                     radius: 16,
-                    backgroundColor: Colors.white.withOpacity(0.9),
+                    backgroundColor: Colors.white.withValues(alpha:0.9),
                     child: Icon(
                       isFavourite ? Icons.favorite : Icons.favorite_border,
                       color: isFavourite ? Colors.red : Colors.grey,
