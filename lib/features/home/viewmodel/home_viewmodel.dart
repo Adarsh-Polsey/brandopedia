@@ -1,6 +1,3 @@
-
-import 'dart:developer';
-
 import 'package:brandopedia/features/home/model/item_model.dart';
 import 'package:brandopedia/features/home/repository/home_repository.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +59,6 @@ class HomeViewModel extends ChangeNotifier {
     return matchesSearch && matchesCategory && matchesPrice;
   }).toList();
 
-  log("_search: $_searchQuery | category: $_currentCategory | result count: ${_filteredItems.length}");
   notifyListeners();
 }
 

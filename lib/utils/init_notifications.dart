@@ -34,11 +34,11 @@ initNotifications() async {
 
       await androidPlugin?.requestNotificationsPermission();
     }
-    await _scheduleCravingNotifications();
 
     // set firstLaunch to false
     prefs.setBool("firstLaunch", false);
   }
+    await _scheduleCravingNotifications();
   }catch(e){
     log("Error occured for notification $e");
   }

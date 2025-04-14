@@ -18,26 +18,21 @@ class CartViewModel extends ChangeNotifier {
   final List<Item> allItems = await HomeRepository().fetchFoodItems();
 
   _cartItems.clear();
-  log("Data from db: $dbData");
-  log("All items: $allItems");
+ 
   try{
   for (var dbItem in dbData) {
-    log("DB Item: $dbItem");
     final match = allItems.firstWhere(
       (item) => item.id == dbItem['foodId'],
     );
-    log("Match: $match");
     if (match.id.isNotEmpty) {
       final itemMap = match.toMap();
       itemMap['quantity'] = dbItem['quantity']; 
       _cartItems.add(itemMap);
     }
-    log("Item List: $_cartItems");
   }
   } catch (e) {
     log("Error: $e");
   }
-  log("Final Cart Items: $_cartItems");
 
   notifyListeners();
 }
