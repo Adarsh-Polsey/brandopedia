@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:brandopedia/common/app_theme.dart';
 import 'package:brandopedia/features/cart/view/cart_screen.dart';
 import 'package:brandopedia/features/cart/viewmodel/cart_viewmodel.dart';
