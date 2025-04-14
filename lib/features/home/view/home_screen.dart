@@ -79,9 +79,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(toolbarHeight: 50,
-        elevation: 0,foregroundColor: Colors.transparent,
-        backgroundColor: Colors.transparent,scrolledUnderElevation: 0,
+      appBar: AppBar(
+        toolbarHeight: 50,
+        elevation: 0,
+        foregroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        scrolledUnderElevation: 0,
         title: AnimatedTextKit(
           repeatForever: true,
           animatedTexts: [
@@ -121,7 +124,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 10,
+                  ),
                   child: Column(
                     children: [
                       // Search and Filter Row
@@ -275,14 +281,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         _buildCategory(
-                          _selectedCategory == 'Food'?Icons.food_bank_outlined:Icons.local_pizza,
-                          _selectedCategory == 'Food'?'All':'Food',
-                          onTap: () => _selectedCategory == 'Food'?_selectCategory('All'):_selectCategory('Food'),
+                          _selectedCategory == 'Food'
+                              ? Icons.food_bank_outlined
+                              : Icons.local_pizza,
+                          _selectedCategory == 'Food' ? 'All' : 'Food',
+                          onTap:
+                              () =>
+                                  _selectedCategory == 'Food'
+                                      ? _selectCategory('All')
+                                      : _selectCategory('Food'),
                         ),
                         _buildCategory(
-                          _selectedCategory == 'Beverage'?Icons.food_bank_outlined:Icons.local_cafe,
-                          _selectedCategory == 'Beverage'?'All':'Beverage',
-                          onTap: () =>  _selectedCategory == 'Beverage'?_selectCategory('All'):_selectCategory('Beverage'),
+                          _selectedCategory == 'Beverage'
+                              ? Icons.food_bank_outlined
+                              : Icons.local_cafe,
+                          _selectedCategory == 'Beverage' ? 'All' : 'Beverage',
+                          onTap:
+                              () =>
+                                  _selectedCategory == 'Beverage'
+                                      ? _selectCategory('All')
+                                      : _selectCategory('Beverage'),
                         ),
 
                         _buildCategory(
@@ -319,13 +337,45 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             Expanded(
                               flex: 1,
                               child: _buildOfferCard(
-                                "50% off",
                                 "Get it now",
                                 [
                                   AppColorpallete.sideColor1.withAlpha(150),
                                   AppColorpallete.sideColor1,
                                 ],
-                                onTap: () => _applyPromoCode("FIRST50"),
+                                widget: RichText(
+                                  text: TextSpan(
+                                    text: "VISHU OFFER ✨\n",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: "\nupto 50% off",
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: "\non orders above ₹200",
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: "\n🌭🌮🍝",
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 26,
+                                        ),
+                                      ),
+                                    ],
+                                  ),  
+                                ),
+                                onTap: () => _applyPromoCode("HAPPYVISHU"),
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -336,7 +386,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 children: [
                                   Expanded(
                                     child: _buildOfferCard(
-                                      "30% off",
                                       "Try it now",
                                       [
                                         AppColorpallete.sideColor2.withAlpha(
@@ -345,14 +394,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         AppColorpallete.sideColor2,
                                       ],
                                       button: false,
-                                      onTap: () => _applyPromoCode("NEW30"),
+                                      widget: RichText(
+                                  text: TextSpan(
+                                    text: "30% off \n",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: "on selected items 🍔",
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                     
+                                    ],
+                                  ),  
+                                ),
+                                      onTap: () => _applyPromoCode("GET30"),
                                     ),
                                   ),
                                   const SizedBox(height: 10),
                                   Expanded(
                                     child: _buildOfferCard(
-                                      "50% off",
-                                      "USE 302406",
+                                      "USE FIRST50",
                                       [
                                         AppColorpallete.sideColor3.withAlpha(
                                           150,
@@ -360,7 +428,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         AppColorpallete.sideColor3,
                                       ],
                                       button: false,
-                                      onTap: () => _applyPromoCode("302406"),
+                                      widget:  RichText(
+                                  text: TextSpan(
+                                    text: "50% off \n",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: "for your first order",
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                     
+                                    ],
+                                  ),  
+                                ),
+                                      onTap: () => _applyPromoCode("FIRST50"),
                                     ),
                                   ),
                                 ],
@@ -397,7 +485,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             color: Colors.white,
                           ),
                         ),
-                          Text(
+                        Text(
                           "What's in $_selectedLocation",
                           style: TextStyle(
                             fontSize: 14,
@@ -591,7 +679,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildLocationPickerOverlay() {
     return Positioned.fill(
       child: Container(
-        color: Colors.black.withValues(alpha:0.5),
+        color: Colors.black.withValues(alpha: 0.5),
         child: Center(
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 40),
@@ -637,8 +725,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                     title: Text(_availableLocations[index]),
                     selected: _selectedLocation == _availableLocations[index],
-                    selectedTileColor: AppColorpallete.primaryColor.withValues(alpha:
-                      0.1,
+                    selectedTileColor: AppColorpallete.primaryColor.withValues(
+                      alpha: 0.1,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -858,7 +946,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             },
             child: CircleAvatar(
               radius: 28,
-              backgroundColor: AppColorpallete.primaryColor.withValues(alpha:0.1),
+              backgroundColor: AppColorpallete.primaryColor.withValues(
+                alpha: 0.1,
+              ),
               child: Icon(icon, color: AppColorpallete.primaryColor, size: 24),
             ),
           ),
@@ -870,10 +960,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildOfferCard(
-    String text,
     String subTitle,
     List<Color> color, {
     bool button = true,
+    required Widget widget,
     required Function() onTap,
   }) {
     return GestureDetector(
@@ -889,7 +979,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withValues(alpha:0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               spreadRadius: 1,
               blurRadius: 4,
               offset: const Offset(0, 2),
@@ -900,14 +990,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
+            widget,
             button
                 ? ElevatedButton(
                   style: ElevatedButton.styleFrom(
