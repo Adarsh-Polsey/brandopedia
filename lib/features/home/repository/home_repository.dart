@@ -11,7 +11,7 @@ class HomeRepository {
     "description": "Classic cheese pizza with tomato sauce and basil.",
     "isVegetarian": true,
     "rating": 4.5,
-    "imageUrl": "https://dummyimage.com/600x400/ffcc00/000000&text=Pizza",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh7kebW1rUWql0SkGn4BtXk8p29OUJjHzZiA&s",
   },
   {
     "id": "item_2",
@@ -21,7 +21,7 @@ class HomeRepository {
     "description": "Deep-fried milk solids soaked in rose-flavored sugar syrup.",
     "isVegetarian": true,
     "rating": 4.8,
-    "imageUrl": "https://dummyimage.com/600x400/ff99cc/000000&text=Gulab+Jamun",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEwK07UoJddWT9niDE_WxYv9yEao7GXY8vFQ&s",
   },
   {
     "id": "item_3",
@@ -31,7 +31,7 @@ class HomeRepository {
     "description": "Spicy rice dish with marinated chicken and aromatic spices.",
     "isVegetarian": false,
     "rating": 4.7,
-    "imageUrl": "https://dummyimage.com/600x400/ff9933/000000&text=Biryani",
+    "imageUrl": "https://static.vecteezy.com/system/resources/previews/027/144/484/non_2x/delicious-chicken-biryani-isolated-on-transparent-background-png.png",
   },
   {
     "id": "item_4",
@@ -41,7 +41,7 @@ class HomeRepository {
     "description": "South Indian rice crepe with spiced potato filling.",
     "isVegetarian": true,
     "rating": 4.6,
-    "imageUrl": "https://dummyimage.com/600x400/f4e542/000000&text=Masala+Dosa",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWVmSi7U3a6ZqLcAbDsadgtGO77PKBZQEI2Q&s",
   },
   {
     "id": "item_5",
@@ -51,7 +51,7 @@ class HomeRepository {
     "description": "Sweet mango yogurt drink, chilled and refreshing.",
     "isVegetarian": true,
     "rating": 4.4,
-    "imageUrl": "https://dummyimage.com/600x400/f9c23c/000000&text=Mango+Lassi",
+    "imageUrl": "https://static.vecteezy.com/system/resources/previews/052/311/559/non_2x/mango-lassi-isolated-on-transparent-background-png.png",
   },
   {
     "id": "item_6",
@@ -61,7 +61,7 @@ class HomeRepository {
     "description": "Creamy tomato curry with soft paneer cubes.",
     "isVegetarian": true,
     "rating": 4.5,
-    "imageUrl": "https://dummyimage.com/600x400/ff3300/ffffff&text=Paneer",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyMLoAm2MlDY_IyNdxg9Ry2aeotAjrhMztTA&s",
   },
   {
     "id": "item_7",
@@ -71,7 +71,7 @@ class HomeRepository {
     "description": "Iced coffee blended with milk and sugar.",
     "isVegetarian": true,
     "rating": 4.3,
-    "imageUrl": "https://dummyimage.com/600x400/bfdbfe/000000&text=Cold+Coffee",
+    "imageUrl": "https://static.vecteezy.com/system/resources/thumbnails/021/028/232/small/iced-coffee-or-caffe-latte-in-cup-file-png.png",
   },
   {
     "id": "item_8",
@@ -81,7 +81,7 @@ class HomeRepository {
     "description": "Soft Indian bread brushed with butter.",
     "isVegetarian": true,
     "rating": 4.2,
-    "imageUrl": "https://dummyimage.com/600x400/fde68a/000000&text=Naan",
+    "imageUrl": "https://static.vecteezy.com/system/resources/previews/047/447/283/non_2x/garlic-butter-naan-bread-isolated-on-a-transparent-background-free-png.png",
   },
   {
     "id": "item_9",
@@ -91,7 +91,7 @@ class HomeRepository {
     "description": "Stir-fried noodles with mixed vegetables and sauces.",
     "isVegetarian": true,
     "rating": 4.1,
-    "imageUrl": "https://dummyimage.com/600x400/7dd3fc/000000&text=Noodles",
+    "imageUrl": "https://static.vecteezy.com/system/resources/previews/035/913/330/non_2x/ai-generated-a-bowl-of-chinese-noodles-isolated-on-a-transparent-background-top-view-png.png",
   },
   {
     "id": "item_10",
@@ -101,7 +101,7 @@ class HomeRepository {
     "description": "Creamy shake made with chocolate and milk.",
     "isVegetarian": true,
     "rating": 4.6,
-    "imageUrl": "https://dummyimage.com/600x400/9ca3af/000000&text=Milkshake",
+    "imageUrl": "https://static.vecteezy.com/system/resources/previews/025/140/281/non_2x/chocolate-milkshake-on-plastic-cup-transparent-background-ai-generated-free-png.png",
   },
 ];
 

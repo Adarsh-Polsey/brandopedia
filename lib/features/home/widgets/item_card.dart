@@ -11,7 +11,8 @@ class FoodItemCard extends StatefulWidget {
     super.key,
     required this.item,
     required this.cartOnTap,
-    this.waiting = false, required this.inCart,
+    this.waiting = false,
+    required this.inCart,
   });
 
   @override
@@ -58,7 +59,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha:0.15),
+            color: Colors.grey.withValues(alpha: 0.15),
             spreadRadius: 2,
             blurRadius: 10,
             offset: Offset(0, 4),
@@ -70,13 +71,24 @@ class _FoodItemCardState extends State<FoodItemCard> {
           // Image with Favorite
           Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.horizontal(left: Radius.circular(20)),
-                child: Image.network(
-                  item["imageUrl"],
-                  height: 140,
-                  width: 140,
-                  fit: BoxFit.cover,
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.symmetric(vertical: BorderSide(
+                    color: Colors.black12.withAlpha(15),
+                    width: 1,)
+                  ),
+                  borderRadius: BorderRadius.horizontal(left:Radius.circular(30)),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.horizontal(
+                    left: Radius.circular(29),
+                  ),
+                  child: Image.network(
+                    item["imageUrl"],
+                    height: 140,
+                    width: 140,
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
               ),
               Positioned(
@@ -90,7 +102,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                   },
                   child: CircleAvatar(
                     radius: 16,
-                    backgroundColor: Colors.white.withValues(alpha:0.9),
+                    backgroundColor: Colors.white.withValues(alpha: 0.9),
                     child: Icon(
                       isFavourite ? Icons.favorite : Icons.favorite_border,
                       color: isFavourite ? Colors.red : Colors.grey,
@@ -117,13 +129,19 @@ class _FoodItemCardState extends State<FoodItemCard> {
                       Expanded(
                         child: Text(
                           item["name"],
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.orange.shade100,
                           borderRadius: BorderRadius.circular(12),
@@ -155,20 +173,27 @@ class _FoodItemCardState extends State<FoodItemCard> {
                     children: [
                       Text(
                         "₹${item["price"]}",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.green[700]),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.green[700],
+                        ),
                       ),
                       Row(
                         children: [
                           Icon(Icons.star, color: Colors.amber, size: 16),
                           SizedBox(width: 2),
-                          Text("${item["rating"]}", style: TextStyle(fontSize: 12)),
+                          Text(
+                            "${item["rating"]}",
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ],
                       ),
                       GestureDetector(
                         onTap: () {
                           widget.cartOnTap?.call();
                           setState(() {
-                            isInCart =!isInCart;
+                            isInCart = !isInCart;
                           });
                         },
                         child: Container(
@@ -178,7 +203,9 @@ class _FoodItemCardState extends State<FoodItemCard> {
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
-                            isInCart ? Icons.shopping_cart : Icons.add_shopping_cart,
+                            isInCart
+                                ? Icons.shopping_cart
+                                : Icons.add_shopping_cart,
                             color: Colors.green.shade800,
                             size: 25,
                           ),
