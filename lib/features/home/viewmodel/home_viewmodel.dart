@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:brandopedia/features/home/model/item_model.dart';
 import 'package:brandopedia/features/home/repository/home_repository.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,7 @@ class HomeViewModel extends ChangeNotifier {
   void searchItems(String query) {
     _searchQuery = query;
     _applyAllFilters();
+    notifyListeners();
   }
 
   void applyFilters({String? category, double? minPrice, double? maxPrice}) {
@@ -46,33 +49,22 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void _applyAllFilters() {
-    // Start with all items
-    _filteredItems = _allItems;
+  _filteredItems = _allItems.where((item) {
+    final matchesSearch = _searchQuery.isEmpty ||
+        item.name.toLowerCase().contains(_searchQuery.toLowerCase());
 
-    // Apply search filter if there's a query
-    if (_searchQuery.isNotEmpty) {
-      _filteredItems =
-          _filteredItems.where((item) {
-            return item.name.toLowerCase().contains(_searchQuery.toLowerCase());
-          }).toList();
-    }
+    final matchesCategory = _currentCategory == null ||
+        _currentCategory!.isEmpty ||
+        item.category.toLowerCase() == _currentCategory!.toLowerCase();
 
-    // Apply category filter if a category is selected
-    if (_currentCategory != null && _currentCategory!.isNotEmpty) {
-      _filteredItems =
-          _filteredItems.where((item) {
-            return item.category.toLowerCase() ==
-                _currentCategory!.toLowerCase();
-          }).toList();
-    }else{
-      _filteredItems=_allItems;
-    }
-    _filteredItems =
-        _filteredItems.where((item) {
-          return item.price >= _minPrice && item.price <= _maxPrice;
-        }).toList();
-    notifyListeners();
-  }
+    final matchesPrice = item.price >= _minPrice && item.price <= _maxPrice;
+
+    return matchesSearch && matchesCategory && matchesPrice;
+  }).toList();
+
+  log("_search: $_searchQuery | category: $_currentCategory | result count: ${_filteredItems.length}");
+  notifyListeners();
+}
 
   // Reset all filters
   void resetFilters() {

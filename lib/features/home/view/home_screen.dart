@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:brandopedia/common/app_theme.dart';
 import 'package:brandopedia/features/cart/viewmodel/cart_viewmodel.dart';
@@ -170,6 +172,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 context.read<HomeViewModel>().searchItems(
                                   value,
                                 );
+                                log(value);
                               },
                             ),
                           ),

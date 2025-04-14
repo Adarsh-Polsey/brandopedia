@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -7,6 +9,7 @@ import 'dart:io';
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 initNotifications() async {
+  try{
   // timezone
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
@@ -36,9 +39,13 @@ initNotifications() async {
     // set firstLaunch to false
     prefs.setBool("firstLaunch", false);
   }
+  }catch(e){
+    log("Error occured for notification $e");
+  }
 }
 
 Future<void> _scheduleCravingNotifications() async {
+  try{
   final List<Map<String, dynamic>> cravingTimes = [
     {
       'hour': 8,
@@ -89,8 +96,11 @@ Future<void> _scheduleCravingNotifications() async {
       androidScheduleMode: AndroidScheduleMode.exact,
     );
   }
-}
+  }catch(e){
+    log("Error occured for _scheduleCravingNotifications notification $e");
+}}
 tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
+  try{
   final now = tz.TZDateTime.now(tz.local);
   var scheduled = tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
 
@@ -98,4 +108,8 @@ tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
     scheduled = scheduled.add(const Duration(days: 1));
   }
   return scheduled;
+}catch(e){
+    log("Error occured for _nextInstanceOfTime notification $e");
+    throw Exception("Error occured for _nextInstanceOfTime notification $e");
+}
 }

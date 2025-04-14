@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:brandopedia/common/app_theme.dart';
 import 'package:brandopedia/features/cart/view/cart_screen.dart';
 import 'package:brandopedia/features/cart/viewmodel/cart_viewmodel.dart';
@@ -10,12 +12,10 @@ import 'package:brandopedia/utils/init_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
-void main() async{
-  // TODO: Factorize _buildWidget
-WidgetsFlutterBinding.ensureInitialized();
-await initNotifications(); 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+    await initNotifications();
+  
   runApp(
     MultiProvider(
       providers: [
@@ -42,8 +42,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/nav': (context) => const NavScreen(),
         '/home': (context) => const HomeScreen(),
-        '/cart': (context) =>  const CartScreen(),
+        '/cart': (context) => const CartScreen(),
       },
-      );
+    );
   }
 }
