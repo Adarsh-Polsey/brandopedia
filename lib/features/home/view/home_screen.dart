@@ -474,7 +474,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               item: viewModel.foodItems[index].toMap(),
                               cartOnTap:
                                   !context.read<CartViewModel>().isInCart(
-                                        viewModel.foodItems[index].name,
+                                        viewModel.foodItems[index].id,
                                       )
                                       ? () {
                                         context.read<CartViewModel>().addToCart(
@@ -524,7 +524,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         context
                                             .read<CartViewModel>()
                                             .removeFromCart(
-                                              viewModel.foodItems[index].name,
+                                              viewModel.foodItems[index].id,
                                             );
 
                                         ScaffoldMessenger.of(
@@ -567,7 +567,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         );
                                       },
                               inCart: context.watch<CartViewModel>().isInCart(
-                                viewModel.foodItems[index].name,
+                                viewModel.foodItems[index].id,
                               ),
                             ),
                           );

@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -7,7 +7,7 @@ class CartDbService {
   static Database? _db;
 
   static const String tableCart = 'cart';
-  static const String colId = 'id';
+  static const String colFoodId = 'foodId';
   static const String colName = 'name';
   static const String colPrice = 'price';
   static const String colQuantity = 'quantity';
@@ -30,8 +30,8 @@ class CartDbService {
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE $tableCart (
-            $colId INTEGER PRIMARY KEY AUTOINCREMENT,
-            $colName TEXT UNIQUE,
+            $colFoodId TEXT PRIMARY KEY,
+            $colName TEXT,
             $colPrice REAL,
             $colQuantity INTEGER
           )
@@ -43,26 +43,24 @@ class CartDbService {
   /// Add or Update Item
   static Future<void> addToCart(Map<String, dynamic> item) async {
     final db = await database;
+
     final existing = await db.query(
       tableCart,
-      where: '$colName = ?',
-      whereArgs: [item['name']],
+      where: '$colFoodId = ?',
+      whereArgs: [item['id']],
     );
 
     if (existing.isNotEmpty) {
-      try {
-        await db.update(
-          tableCart,
-          {colQuantity: (existing.first[colQuantity] as int) + 1},
-          where: '$colName = ?',
-          whereArgs: [item['name']],
-        );
-      } catch (e) {
-        log('Error updating item: $e');
-        throw Exception('Invalid quantity type');
-      }
+      final currentQty = (existing.first[colQuantity] as int);
+      await db.update(
+        tableCart,
+        {colQuantity: currentQty + 1},
+        where: '$colFoodId = ?',
+        whereArgs: [item['id']],
+      );
     } else {
       await db.insert(tableCart, {
+        colFoodId: item['id'],
         colName: item['name'],
         colPrice: item['price'],
         colQuantity: 1,
@@ -71,31 +69,31 @@ class CartDbService {
   }
 
   /// Remove an item
-  static Future<void> removeFromCart(String itemName) async {
+  static Future<void> removeFromCart(String foodId) async {
     final db = await database;
-    await db.delete(tableCart, where: '$colName = ?', whereArgs: [itemName]);
+    await db.delete(tableCart, where: '$colFoodId = ?', whereArgs: [foodId]);
   }
 
   /// Increase quantity
-  static Future<void> increaseQuantity(String itemName) async {
+  static Future<void> increaseQuantity(String foodId) async {
     final db = await database;
     await db.rawUpdate(
       '''
       UPDATE $tableCart 
       SET $colQuantity = $colQuantity + 1 
-      WHERE $colName = ?
-    ''',
-      [itemName],
+      WHERE $colFoodId = ?
+      ''',
+      [foodId],
     );
   }
 
   /// Decrease quantity (and remove if < 1)
-  static Future<void> decreaseQuantity(String itemName) async {
+  static Future<void> decreaseQuantity(String foodId) async {
     final db = await database;
     final item = await db.query(
       tableCart,
-      where: '$colName = ?',
-      whereArgs: [itemName],
+      where: '$colFoodId = ?',
+      whereArgs: [foodId],
     );
 
     if (item.isNotEmpty) {
@@ -104,11 +102,11 @@ class CartDbService {
         await db.update(
           tableCart,
           {colQuantity: currentQty - 1},
-          where: '$colName = ?',
-          whereArgs: [itemName],
+          where: '$colFoodId = ?',
+          whereArgs: [foodId],
         );
       } else {
-        await removeFromCart(itemName);
+        await removeFromCart(foodId);
       }
     }
   }

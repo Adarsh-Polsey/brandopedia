@@ -352,7 +352,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                       ),
                     ),
                     onDismissed: (direction) {
-                      context.read<CartViewModel>().removeFromCart(cartItems[index]['name']);
+                      context.read<CartViewModel>().removeFromCart(cartItems[index]['id']);
                       
                       // Show undo option
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -374,12 +374,12 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                       price: cartItems[index]['price'],
                       imageUrl: cartItems[index]['imageUrl'].toString(),
                       onAdd: () {
-                        context.read<CartViewModel>().increaseQuantity(cartItems[index]['name']);
+                        context.read<CartViewModel>().increaseQuantity(cartItems[index]['id']);
                       },
                       onRemove: () {
-                        context.read<CartViewModel>().decreaseQuantity(cartItems[index]['name']);
+                        context.read<CartViewModel>().decreaseQuantity(cartItems[index]['id']);
                         if (cartItems[index]['quantity'] == 0) {
-                          context.read<CartViewModel>().removeFromCart(cartItems[index]['name']);
+                          context.read<CartViewModel>().removeFromCart(cartItems[index]['id']);
                         }
                       },
                     ),
